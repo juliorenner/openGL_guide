@@ -4,6 +4,7 @@
 #include "Shader.h"
 #include <string.h>
 #include <unistd.h>
+// #include <stb_image.h>
 
 #include <iostream>
 
@@ -17,8 +18,9 @@ unsigned int VBO, VAO, EBO;
 int initializeComponents();
 void run();
 void setupVertexData();
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);  
+void framebuffer_size_callback(GLFWwindow* window, int width, int height); 
 void processInput();
+const char* generatePath(const char* filePath);
 
 int main()
 {
@@ -66,10 +68,13 @@ void run()
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     std::string basePath("/home/juliorenner/Documents/git/openGL_guide/src/");
-    std::string vertexPath = basePath + std::string("shaders/vertexShader.glsf");
-    std::string fragmentPath = basePath + std::string("shaders/fragmentShader.glsf");
-    
-    Shader mainShader(vertexPath.c_str(), fragmentPath.c_str());
+    const char* vertexPath = generatePath("shaders/vertexShader.glsf");
+    const char* fragmentPath = generatePath("shaders/fragmentShader.glsf");
+
+    std::cout << vertexPath << std::endl;
+    std::cout << fragmentPath << std::endl;
+
+    Shader mainShader(vertexPath, fragmentPath);
 
     float offSet = 0.0;
 
@@ -141,4 +146,13 @@ void processInput()
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
+}
+
+const char* generatePath(const char* filePath)
+{
+    std::string basePath("/home/juliorenner/Documents/git/openGL_guide/src/");
+    
+    std::string resultPath = basePath + std::string(filePath);
+
+    return resultPath.c_str();
 }
